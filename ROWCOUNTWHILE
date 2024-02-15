@@ -1,0 +1,23 @@
+
+	SELECT COUNT(*)  
+	FROM RawRX r (READCOMMITTED)
+	inner join dbname.dbo.tablename h (READCOMMITTED) ON h.LegacyMember = r.MemberID
+	and h.IsDuplicate = 0 and IsProcessed = 1--10,894,143
+		
+		DECLARE @rc INT =0
+			SET ROWCOUNT 10000
+				SET @rc = 1
+					WHILE ( @rc > 0)
+					BEGIN
+						SET @rc = 0
+						BEGIN TRAN a
+							UPDATE r
+							SET r.MemberId = h.TapestryMember
+							FROM RawLab r
+							INNER join dbname.dbo.tablename h on h.LegacyMember = r.MemberID
+							AND h.IsDuplicate = 0 AND IsProcessed = 1
+							SET @rc = @@ROWCOUNT
+							--PRINT @rc
+						COMMIT TRAN a
+					END
+			SET ROWCOUNT 0
