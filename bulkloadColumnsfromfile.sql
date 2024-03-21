@@ -24,3 +24,13 @@ FROM OPENROWSET(
     FORMATFILE = 'Z:\Fix\data.fmt'
 
 ) AS Data;
+
+
+data.fmt contents
+9.0
+2
+1 SQLCHAR 0 100 "|" 1 SingleColumn "Latin1_General_CI_AS"
+2 SQLCHAR       0       100     "\r\n"   2     Col2         SQL_Latin1_General_CP1_CI_AS
+
+-- Extracting first column, Need to define second col for the rest of the data in the row until end
+
